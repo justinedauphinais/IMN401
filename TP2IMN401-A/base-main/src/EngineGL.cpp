@@ -3,6 +3,8 @@
 #include "Scene.h"
 
 #include "Materials/BaseMaterial/BaseMaterial.h"
+#include "Materials/RotationMaterial/RotationMaterial.h"
+#include "Materials/PhongMaterial/PhongMaterial.h"
 
 #include "Texture2D.h"
 
@@ -17,13 +19,30 @@ bool EngineGL::init() {
 
     // Création d'un materiau de Base
     BaseMaterial *material = new BaseMaterial("IMN401-TP2");
+    PhongMaterial *material2 = new PhongMaterial("Phong");
 
     // d'un objet, méthode détaillée
     Node *bunny = scene->getNode("Bunny");
     bunny->setModel(scene->m_Models.get<ModelGL>(ObjPath + "Bunny.obj"));
     bunny->frame()->scale(glm::vec3(30.0));
-    bunny->setMaterial(material);
+    bunny->setMaterial(material2);
     scene->getSceneNode()->adopt(bunny);
+
+    //// Création A
+    //Node *A = new Node("A");
+    //A->setMaterial(new RotationMaterial("RotA"));
+    //A->frame()->scale(glm::vec3(1.0f / 30.0f));
+    //bunny->adopt(A);
+
+    //// Création L 
+    //Node *L = new Node("L");
+    //L->setModel(scene->m_Models.get<ModelGL>(ObjPath + "Sphere.obj"));
+    //L->setMaterial(new BaseMaterial("BaseMatSphere"));
+    //A->adopt(L);
+    //L->frame()->translate(glm::vec3(5.5f, 0.0f, 0.0f));
+
+    //L->frame()->scale(glm::vec3(2.0f));
+    
 
     setupEngine();
     return (true);

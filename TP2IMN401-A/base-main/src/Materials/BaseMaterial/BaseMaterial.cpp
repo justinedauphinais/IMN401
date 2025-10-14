@@ -14,6 +14,10 @@ BaseMaterial::BaseMaterial(std::string name) : MaterialGL(name) {
     l_View = glGetUniformLocation(vp->getId(), "View");
     l_Proj = glGetUniformLocation(vp->getId(), "Proj");
     l_Model = glGetUniformLocation(vp->getId(), "Model");
+
+    l_Time = glGetUniformLocation(vp->getId(), "u_time");
+    l_Amp = glGetUniformLocation(vp->getId(), "u_amp");
+    l_Freq = glGetUniformLocation(vp->getId(), "u_freq");
 }
 
 BaseMaterial::~BaseMaterial() {}
@@ -35,4 +39,19 @@ void BaseMaterial::animate(Node *o, const float elapsedTime) {
     - Une matrice 4X4 se transmet grace a glProgramUniformMatrix4fv
     ***********************************************/
 
+    glm::mat4 Model = o->frame()->getModelMatrix();
+    glm::mat4 View = scene->camera()->getViewMatrix();
+    glm::mat4 Proj = scene->camera()->getProjectionMatrix();
+
+    const GLuint progID = vp->getId();
+    if (l_Model >= 0) glProgramUniformMatrix4fv(progID, l_Model, 1, GL_FALSE, glm::value_ptr(Model));
+    if (l_View >= 0) glProgramUniformMatrix4fv(progID, l_View, 1, GL_FALSE, glm::value_ptr(View));
+    if (l_Proj >= 0) glProgramUniformMatrix4fv(progID, l_Proj, 1, GL_FALSE, glm::value_ptr(Proj));
+
+    // Deformation du bunny
+    if(elapsedTime < 20) m_time += elapsedTime / 1000;
+
+    if (l_Time >= 0) glProgramUniform1f(progID, l_Time, m_time);
+    if (l_Amp >= 0) glProgramUniform1f(progID, l_Amp, m_amp);
+    if (l_Freq >= 0) glProgramUniform1f(progID, l_Freq, m_freq);
 }
