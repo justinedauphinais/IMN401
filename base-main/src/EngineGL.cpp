@@ -34,14 +34,12 @@ bool EngineGL::init() {
     //A->frame()->scale(glm::vec3(1.0f / 30.0f));
     //bunny->adopt(A);
 
-    //// Création L 
-    //Node *L = new Node("L");
-    //L->setModel(scene->m_Models.get<ModelGL>(ObjPath + "Sphere.obj"));
-    //L->setMaterial(new BaseMaterial("BaseMatSphere"));
-    //A->adopt(L);
-    //L->frame()->translate(glm::vec3(5.5f, 0.0f, 0.0f));
-
-    //L->frame()->scale(glm::vec3(2.0f));
+    // Création L 
+    Node *L = scene->getNode("LSphere");
+    L->setModel(scene->m_Models.get<ModelGL>(ObjPath + "Sphere.obj"));
+    L->setMaterial(new BaseMaterial("BaseMatSphere"));
+    scene->getSceneNode()->adopt(L);
+    L->frame()->translate(glm::vec3(0, 5, 0));
     
 
     setupEngine();
